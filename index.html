@@ -1,0 +1,93 @@
+<!DOCTYPE>
+<html>
+    <head>
+        <title>Hello</title>
+      <style>
+        body{
+          background: #f9f9f9;
+          margin: 0px;
+        }
+        .page-login{
+          width: 100%;
+          height: 100%;
+        }
+        .header-login{
+          position: relative;
+          width: 100%;
+          line-height: 50px;
+          background: #fff;
+          text-indent: 15px;
+        }
+        .panel-login{
+          position: relative;
+          background: #fff;
+          top: 70px;
+          width: 400px;
+          margin: auto;
+          padding: 10px 50px 30px 50px;
+          border: 0px solid rgb(40,135,225);
+          border-width: 11px 0px 0px 0px;
+        }
+        .panel-login table{
+          width: 100%;
+        }
+        .panel-login table tr:first-child td{
+          text-align: center;
+        }
+        .panel-login table tr td{
+          padding: 10px 0px;
+          background: #000l
+        }
+        .panel-login table tr td input,.panel-login table tr td button{
+          width: 100%;
+          line-height: 30px;
+          border-radius: 5px;
+          border-style: solid;
+          border-color: #ccc;
+          border-width: 1px;
+        }
+        .panel-login table tr td input{
+          text-indent: 15px
+        }
+        .panel-login table tr td button{
+          background: rgb(40,135,225);
+          border-style:hidden;
+          color: #fff
+        }
+
+      </style>
+      <script>
+      document.onreadystatechange = function () {
+            if (document.readyState === "complete") {
+                const btn = document.getElementById("login-btn")
+                btn.addEventListener('click',()=>{
+                  window.location = "./view/mainpage.html"
+                })
+            }
+      }
+      </script>
+    </head>
+    <body>
+        <div class="page-login">
+          <div class="header-login">
+            Pre-Examination and Evaluation System
+          </div>
+          <div class="panel-login">
+            <table>
+              <tr>
+                <td><h3><b style="color:rgb(40,135,225)">Please login with PSU Passport</b></h3></td>
+              </tr>
+              <tr>
+                <td><input type="text" name="username" onfocus="if (this.value) this.value = ''" type="text" value="Username"></td>
+              </tr>
+              <tr>
+                <td><input type="text" name="password" onfocus="if (this.value) this.value = ''" type="text" value="Password"></td>
+              </tr>
+              <tr>
+                <td><button type="button" name="login" id="login-btn">Login</button></td>
+              </tr>
+            </table>
+          </div>
+        </div>
+    </body>
+</html>

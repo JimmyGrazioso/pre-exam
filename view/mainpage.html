@@ -1,0 +1,353 @@
+<!DOCTYPE>
+<meta charset="utf-8">
+<html>
+    <head>
+        <title>Hello</title>
+      <style>
+        body{
+          background: #f1f1f1;
+          margin: 0px;
+        }
+        .page{
+          width: 100%;
+          height: 100%;
+        }
+        .header{
+          position: relative;
+          width: 100%;
+          line-height: 50px;
+          background: #f0f0f0;
+          text-indent: 15px;
+          display: table;
+        }
+        .header .left,.header .right{
+          width: 50%;
+          display: table-cell;
+        }
+        .header .right{
+          padding-right: 15px
+        }
+        .header .right button{
+          position: relative;
+          top: +5px;
+          margin-left: 5px;
+          margin-right: auto;
+          float: right;
+        }
+        #arrow-up {
+          width: 0;
+          height: 0;
+          border-left: 20px solid transparent;
+          border-right: 20px solid transparent;
+          border-bottom: 15px solid white;
+          position: absolute;
+          top: +35px;
+          right: 70px;
+        }
+        #noti{
+          background: #fff;
+          width: 450px;
+          position: absolute;
+          top: +50px;
+          right: 50px;
+          height: auto;
+        }
+        #noti [id^=noti-]{
+          padding:10px 15px 10px 15px;
+          border: 0px solid #fff;
+          border-width: 0px 0px 1px 0px;
+        }
+        [id=noti-0]{
+          padding: 5px 15px 5px 15px!important;
+          border-width: 0px 0px 1px 0px!important;
+          border-color: #000!important;
+        }
+        #noti [id^=noti-].odd{background: #fff;}
+        #noti [id^=noti-].even{background: #000;}
+        .panel{
+          white-space: nowrap;
+          vertical-align: top;
+        }
+        .panel .left{
+          display: inline-block;
+          float: left;
+          width: 30%;
+          height: 100%;
+          background: #fff;
+        }
+        .panel .right{
+          float: left;
+          display: inline-block;
+          width: 70%;
+          height: 100%;
+          background: #f1f1;
+          left:+4px;
+        }
+        .err{
+          /*display: none;*/
+        }
+        .noterr{
+          display:none
+        }
+        .page-1,.page-2{
+          width: 97%;
+          height: 100%;
+          background: #fff;
+          margin: auto;
+        }
+        .page-1 .nav,.page-1 .page-header,.page-1 .page-content
+        ,.page-2 .nav,.page-2 .page-header,.page-2 .page-content{
+          padding:2px 50px;
+        }
+        .page-1{
+          display: none;
+        }
+        .err table{
+          background: #ffa;
+          width: 100%;
+          text-align: center;
+          line-height: 75px;
+          border: 1px solid #000;
+        }
+        .noterr table{
+          width: 100%;
+          border-collapse: collapse;
+        }
+        .noterr thead tr:first-child td{
+          background: #aff;
+        }
+        .noterr thead tr:not(:first-child) td{
+          background: #fef;
+        }
+        .noterr table tr td{
+          border:1px solid #000;
+          padding: 7px;
+        }
+        .viewall{background: rgb(40,135,225);border-width: 1px 0px 0px 0px!important; border-color: #000!important;}
+      </style>
+      <link rel="stylesheet" href="../rs/icons/style.css">
+      <script>
+      document.onreadystatechange = function () {
+          if (document.readyState === "complete") {
+              initApplication();
+          }
+      }
+      let initApplication = ()=>{
+          let noti = ""
+          let sh = 1
+          const button = document.getElementById('notification');
+          button.addEventListener('click', ()=> {
+            (sh % 2 == 0)
+              ? hideStuff('arrow-up', 'noti')
+              : showStuff('arrow-up', 'noti')
+
+            sh++
+            this.handleClick();
+          });
+
+          function hideStuff(arg1, arg2) {
+              document.getElementById(arg1).style.display = 'none';
+              document.getElementById(arg2).style.display = 'none';
+          }
+          function showStuff(arg1, arg2) {
+              document.getElementById(arg1).style.display = 'block';
+              document.getElementById(arg2).style.display = 'block';
+          }
+          function setquerycriteria(){
+            let term = document.getElementById("term").value
+            let year = document.getElementById("year").value
+            if(parseInt(term) !== 0 && parseInt(year) !== 0){
+              document.querySelector(".err").style.display = 'none'
+              document.querySelector(".noterr").style.display = 'block'
+
+                // .style.display = 'none'
+            }else{
+              document.querySelector(".noterr").style.display = 'none'
+              document.querySelector(".err").style.display = 'block'
+
+            }
+          }
+
+          let dd1gen = () => {
+            let value = {0:'',1:'Midterm',2:"Final"}
+            let html = ""
+            for (var variable in value) {
+
+              if (value.hasOwnProperty(variable)) {
+                html+="<option value='"+variable+"'>" + value[variable] + "</option>"
+              }
+            //
+            }
+
+            let term = document.getElementById("term")
+            term.innerHTML = html
+            term.addEventListener("change",()=>{
+              setquerycriteria()
+            })
+          }
+          dd1gen()
+
+          let dd2gen = () => {
+            let value = {0:'',1:'1/2560',2:'2/2560'}
+            let html = ""
+            for (var variable in value) {
+
+              if (value.hasOwnProperty(variable)) {
+                html+="<option value='"+variable+"'>" + value[variable] + "</option>"
+              }
+            //
+            }
+            let year = document.getElementById("year")
+            year.innerHTML = html
+            year.addEventListener('change',()=>{
+              setquerycriteria()
+            })
+          }
+          dd2gen()
+      }
+
+      </script>
+    </head>
+    <body>
+        <div class="page">
+          <div class="header">
+            <div class="left">
+              Pre-Examination and Evaluation System
+            </div>
+            <div class="right">
+              <button type="button" name="button">Logout</button>
+              <button type="button" name="button" id="notification" >Notification</button>
+              <button type="button" name="button">User</button>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="left">
+              <div class="mainmenu">
+                        <div class="ull1">จัดการชุดข้อสอบของฉัน</div>
+                        <ul class="ull2">
+                            <li value="1">อัพโหลดชุดข้อสอบ</li>
+                            <li value="2">ชุดข้อสอบของฉัน</li>
+                            <li value="3">ผลการประเมินของฉัน</li>
+                        </ul>
+                        <div class="ull1">ตรวจสอบและประเมินข้อสอบ</div>
+                        <ul class="ull2">
+                            <li value="4">ชุดข้อสอบที่ต้องตรวจสอบ</li>
+                            <li value="5">ประเมินข้อสอบ</li>
+                        </ul>
+                        <div class="ull1">กลุ่มผู้ตรวจสอบและประเมินข้อสอบ</div>
+                        <ul class="ull2">
+                            <li value="6">กลุ่มของฉัน</li>
+                            <li value="7">มอบหมายงานของฉัน</li>
+                            <li value="8">จัดกลุ่มผู้ตรวจสอบและประเมินข้อสอบ</li>
+                        </ul>
+                    </div>
+            </div>
+            <div class="right">
+              <div class="page-1">
+                  <div class="nav"><a href="#">1222</a>/<a href="#">21323</a>/<a href="#">asdasd</a></div>
+                  <div class="content">
+                      <div class="page-header">
+                        Examination File Uploader
+                        <select class="" name="" id="term">
+                        </select>
+                        Semester/Year
+                        <select class="" name="" id="year">
+                        </select>
+                        <button type="button" name="button">upload</button>
+                      </div>
+                      <div class="page-content">
+                        <div class="result">
+                          <div class="err">
+                            <table>
+                              <tr>
+                                <td>Select 2 search criteria. Click Upload to uplad Examination File</td>
+                              </tr>
+                            </table>
+                          </div>
+                          <div class="noterr">
+                            <table>
+                              <thead>
+                                <tr>
+                                  <td colspan="5">Examination File Uploader : Final Semester 1/2559</td>
+                                </tr>
+                                <tr>
+                                  <td>No</td>
+                                  <td>Subject Code</td>
+                                  <td>Subject Name</td>
+                                  <td>Current Version</td>
+                                  <td>Upload</td>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr>
+                                  <td>1</td>
+                                  <td>2</td>
+                                  <td>3</td>
+                                  <td>4</td>
+                                  <td>5</td>
+                                </tr>
+                              </tbody>
+                            </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+              </div>
+              <div class="page-2">
+                  <div class="nav"><a href="#">1222</a>/<a href="#">21323</a>/<a href="#">asdasd</a></div>
+                  <div class="page-content">
+                    <table>
+                      <thead>
+                        <tr>
+                          <td colspan="3">Examination File Uploader : Final Semester 1/2559</td>
+                        </tr>
+                        <tr>
+                          <td colspan="2">Subject code Subject name</td>
+                          <td></td>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>Examination</td>
+                          <td>Key</td>
+                          <td>Cover Examination</td>
+                        </tr>
+                        <tr>
+                          <td><span class="icon-file-word"></span></td>
+                          <td>word</td>
+                          <td>word</td>
+                        </tr>
+                        <tr>
+                          <td><button type="button" name="button">Upload</button></td>
+                          <td><button type="button" name="button">Upload</button></td>
+                          <td><button type="button" name="button">Upload</button></td>
+                        </tr>
+                      </tbody>
+
+                    </table>
+
+                  </div>
+              </div>
+              <div id="arrow-up" style="display:none;"></div>
+              <div id="noti" style="display:none;">
+                <div id="noti-0" class="notiheader">
+                  Your notification
+                </div>
+                <div id="noti-1" class="odd">
+                  1
+                </div>
+                <div id="noti-2" class="even">
+                  2
+                </div>
+                <div id="noti-3" class="odd">
+                  3
+                </div>
+                <div id="noti-all" class="viewall" style="text-align:center">
+                  View all
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </body>
+</html>
