@@ -3,10 +3,12 @@
 <html>
     <head>
         <title>Hello</title>
+        <script src="https://cdn.jsdelivr.net/g/lodash@4.17.4(lodash.min.js+lodash.core.min.js+lodash.fp.min.js+mapping.fp.js)"></script>
       <style>
         body{
           background: #f1f1f1;
           margin: 0px;
+          overflow-y:scroll;
         }
         .page{
           width: 100%;
@@ -16,7 +18,7 @@
           position: relative;
           width: 100%;
           line-height: 50px;
-          background: #f0f0f0;
+          background: #fff;
           text-indent: 15px;
           display: table;
         }
@@ -64,6 +66,52 @@
         }
         #noti [id^=noti-].odd{background: #fff;}
         #noti [id^=noti-].even{background: #000;}
+        #menu-enter{
+          border: 1px solid rgba(150,150,150,0.0);
+          background: transparent;
+          font-size: 25px;
+          height: 40px!important;
+          margin-top: 5px;
+        }
+        .ull1{
+          padding: 10px 0px 10px 20px;
+          color: #2C87F0;
+        }
+        .icon-front{
+          /*color: rgba(100,100,100, 0.9);*/
+          padding-right: 8px;
+        }
+        .mainmenu{
+          /*background: #ff0;*/
+        }
+        .mainmenu ul{
+          list-style-type: none;
+          margin: 0px!important;
+          padding: 0;
+        }
+        .mainmenu ul li{
+          margin: 0px;
+          padding: 10px 0px 10px 25px;
+          color: rgba(17,17,17,0.8)
+        }
+        .mainmenu ul li:hover{
+          background: #00C0FF;
+          cursor: pointer;
+          color: #fff!important;
+        }
+        .line{
+          margin: auto;
+          width: 90%;
+          height: 1px;
+          background: rgba(150,150,150,0.8);
+          display: block;
+        }
+        .user-list{
+          font-size: 13px;
+          line-height: 5px;
+        }
+
+
         .panel{
           white-space: nowrap;
           vertical-align: top;
@@ -74,14 +122,22 @@
           width: 30%;
           height: 100%;
           background: #fff;
+          position: absolute;
+          top: 50px;
+          left: 0px;
+          z-index: +1;
+          /*display: none;*/
         }
         .panel .right{
-          float: left;
-          display: inline-block;
-          width: 70%;
+          /*float: left;*/
+          /*display: inline-block;*/
+          display: none;
+          width: 100%;
           height: 100%;
-          background: #f1f1;
-          left:+4px;
+          position: absolute;
+          top: 50px;
+          left: 0px;
+          background: #f1f1f1;
         }
         .err{
           /*display: none;*/
@@ -90,7 +146,7 @@
           display:none
         }
         .page-1,.page-2{
-          width: 97%;
+          width: 100%;
           height: 100%;
           background: #fff;
           margin: auto;
@@ -134,24 +190,46 @@
       }
       let initApplication = ()=>{
           let noti = ""
-          let sh = 1
+          let sh1 = 1
+          let sh2 = 1
           const button = document.getElementById('notification');
+          const menuEnter = document.getElementById('menu-enter');
+          const li = document.querySelectorAll("ul li")
+
+
+
+
           button.addEventListener('click', ()=> {
-            (sh % 2 == 0)
+            (sh1 % 2 == 0)
               ? hideStuff('arrow-up', 'noti')
               : showStuff('arrow-up', 'noti')
 
-            sh++
-            this.handleClick();
-          });
+            sh1++
+          })
+
+          menuEnter.addEventListener('click', ()=> {
+            (sh2 % 2 == 0)
+              ? hideStuff('menu-hs')
+              : showStuff('menu-hs')
+
+            sh2++
+          })
+          _.forEach(li, function(value,key) {
+            li[key].addEventListener('click', (e)=> {
+              console.log(li[0].value)
+            })
+          })
+
 
           function hideStuff(arg1, arg2) {
               document.getElementById(arg1).style.display = 'none';
-              document.getElementById(arg2).style.display = 'none';
+              if(arg2)
+                document.getElementById(arg2).style.display = 'none';
           }
           function showStuff(arg1, arg2) {
               document.getElementById(arg1).style.display = 'block';
-              document.getElementById(arg2).style.display = 'block';
+              if(arg2)
+                document.getElementById(arg2).style.display = 'block';
           }
           function setquerycriteria(){
             let term = document.getElementById("term").value
@@ -212,7 +290,9 @@
         <div class="page">
           <div class="header">
             <div class="left">
-              Pre-Examination and Evaluation System
+              <button id='menu-enter'><span class="icon-menu"></span></button>
+              <!-- Pre-Examination and Evaluation System -->
+
             </div>
             <div class="right">
               <button type="button" name="button">Logout</button>
@@ -221,24 +301,42 @@
             </div>
           </div>
           <div class="panel">
-            <div class="left">
+            <div class="left" id="menu-hs">
               <div class="mainmenu">
                         <div class="ull1">จัดการชุดข้อสอบของฉัน</div>
                         <ul class="ull2">
-                            <li value="1">อัพโหลดชุดข้อสอบ</li>
-                            <li value="2">ชุดข้อสอบของฉัน</li>
-                            <li value="3">ผลการประเมินของฉัน</li>
+                            <li value="1"><span class="icon-front icon-folder-upload"></span> อัพโหลดชุดข้อสอบ</li>
+                            <li value="2"><span class="icon-front icon-folder-open"></span> ชุดข้อสอบของฉัน</li>
+                            <li value="3"><span class="icon-front icon-clipboard"></span> ผลการประเมินของฉัน</li>
+                            <li value="4"><span class="icon-front icon-cog"></span> ตั้งค่าบัญชี</li>
                         </ul>
+                        <span class='line'></span>
                         <div class="ull1">ตรวจสอบและประเมินข้อสอบ</div>
                         <ul class="ull2">
-                            <li value="4">ชุดข้อสอบที่ต้องตรวจสอบ</li>
-                            <li value="5">ประเมินข้อสอบ</li>
+                            <li value="4"><span class="icon-front icon-file-text2"></span> ชุดข้อสอบที่ต้องตรวจสอบ</li>
+                            <li value="5"><span class="icon-front icon-pencil"></span> ประเมินข้อสอบ</li>
                         </ul>
-                        <div class="ull1">กลุ่มผู้ตรวจสอบและประเมินข้อสอบ</div>
+                        <span class="line"></span>
+                        <div class="ull1">จัดการภาพรวมการตรวจข้อสอบ</div>
                         <ul class="ull2">
-                            <li value="6">กลุ่มของฉัน</li>
-                            <li value="7">มอบหมายงานของฉัน</li>
-                            <li value="8">จัดกลุ่มผู้ตรวจสอบและประเมินข้อสอบ</li>
+                            <li value="8"><span class="icon-front icon-user-plus"></span> จัดกลุ่มสมาชิก</li>
+                            <li value="8"><span class="icon-front icon-stats-dots"></span> ภาพรวมการตรวจข้อสอบ</li>
+                        </ul>
+                        <span class="line"></span>
+                        <div class="ull1">สมาชิกในกลุ่มของฉัน</div>
+                        <ul>
+                          <li><span class="icon-front icon-users"></span> กลุ่มที่ 1
+                            <ul class="user-list">
+                              <li><u>อาจารย์</u></li>
+                              <li><u>อาจารย์</u></li>
+                            </ul>
+                          </li>
+                          <li><span class="icon-front icon-users"></span> กลุ่มที่ 2
+                            <ul class="user-list">
+                              <li><u>อาจารย์</u></li>
+                              <li><u>อาจารย์</u></li>
+                            </ul>
+                          </li>
                         </ul>
                     </div>
             </div>
